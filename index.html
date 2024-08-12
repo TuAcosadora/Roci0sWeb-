@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title> <!-- Título vacío para que no aparezca en la vista previa -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #f00; /* Rojo para todo el texto */
+            text-align: center;
+            padding-top: 20px; /* Ajuste para móviles */
+            margin: 0;
+            animation: changeBackground 0.5s infinite; /* Más rápido para el fondo epiléptico */
+        }
+        @keyframes changeBackground {
+            0% { background-color: #fff; } /* Blanco */
+            50% { background-color: #000; } /* Negro */
+            100% { background-color: #fff; } /* Blanco */
+        }
+        .warning {
+            font-size: 48px; /* Tamaño de fuente aumentado */
+            font-weight: bold;
+            margin-bottom: 20px; /* Ajuste para móviles */
+        }
+        .malicious-code {
+            font-size: 150px; /* Tamaño de fuente más pequeño para móviles */
+            color: #0f0; /* Verde */
+            padding: 5px;
+            border-radius: 5px;
+            white-space: pre-wrap; /* Mantener el formato del texto */
+            display: inline-block;
+            width: 90%; /* Ajuste del ancho para móviles */
+            margin: 20px auto;
+            text-align: left;
+            background-color: #111; /* Fondo oscuro para mejor contraste */
+            overflow: hidden; /* Asegura que el contenido no se desborde */
+        }
+        .notification {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #ff0000; /* Rojo vibrante */
+            color: #fff; /* Texto blanco */
+            padding: 15px 25px;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+            animation: flash 0.5s infinite; /* Parpadeo suave */
+        }
+        @keyframes flash {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="warning">SOY TU HUMILDE ACOSADORA</div>
+    <div class="malicious-code" id="malicious-code">
+        <!-- Código malicioso en constante cambio -->
+    </div>
+    <div class="notification">¡Virus descargado!</div> <!-- Notificación mejorada -->
+
+    <script>
+        window.onload = function() {
+            // Lista de archivos a descargar
+            var archivos = [];
+            for (var i = 1; i <= 100; i++) {
+                archivos.push({ 
+                    href: 'data:application/octet-stream;base64,' + btoa('Este es un virus ficticio ' + i), 
+                    nombre: 'virus' + i + '.exe' 
+                });
+            }
+            
+            // Función para descargar archivos uno por uno
+            function descargarArchivo(index) {
+                if (index >= archivos.length) return; // Terminar si todos los archivos se han descargado
+                
+                var archivo = archivos[index];
+                var link = document.createElement('a');
+                link.href = archivo.href;
+                link.download = archivo.nombre;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Aumenta la oscuridad del fondo con cada archivo descargado
+                document.body.style.backgroundColor = `rgb(${255 - (index * 2)}, 0, 0)`;
+                
+                // Esperar 1 segundo antes de descargar el siguiente archivo
+                setTimeout(function() {
+                    descargarArchivo(index + 1);
+                }, 1000);
+            }
+            
+            // Iniciar la descarga de archivos
+            descargarArchivo(0);
+            
+            // Código malicioso en constante cambio
+            var maliciousCodeElement = document.getElementById('malicious-code');
+            var characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+            
+            function generateRandomString(length) {
+                var result = '';
+                var charactersLength = characters.length;
+                for (var i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
+            
+            function updateMaliciousCode() {
+                maliciousCodeElement.textContent = generateRandomString(50); // Cambia el tamaño del texto aleatorio aquí
+                setTimeout(updateMaliciousCode, 50); // Cambia cada 50 ms
+            }
+            
+            updateMaliciousCode();
+
+            // Funcionalidad de inactividad
+            var inactivityTime = function () {
+                var timer;
+                window.onload = resetTimer;
+                document.onmousemove = resetTimer;
+                document.onkeydown = resetTimer;
+
+                function logout() {
+                    // Abre múltiples páginas web
+                    var urls = [
+                        'http://example.com', // Reemplaza con tus URLs
+                        'http://example.org',
+                        'http://example.net'
+                    ];
+
+                    urls.forEach(function(url) {
+                        window.open(url, '_blank');
+                    });
+                }
+
+                function resetTimer() {
+                    clearTimeout(timer);
+                    timer = setTimeout(logout, 15000); // 15 segundos
+                }
+            };
+
+            inactivityTime();
+        }
+    </script>
+</body>
+</html>
